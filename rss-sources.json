@@ -1,0 +1,46 @@
+{
+  "_aciklama": "Haber uygulaması için RSS kaynak seed listesi. 'dogrulandi: true' olanlar 2026-05-30'da canlı test edildi. Diğerleri standart yayıncı feed'leridir (rss-parser ile çalışır). Çalışmayan kaynağı pipeline atlamalı, is_active=false yapılmalı.",
+  "kategoriler": {
+    "finans": [
+      { "name": "Dünya Gazetesi", "url": "https://www.dunya.com/rss", "language": "tr", "country": "TR", "dogrulandi": true },
+      { "name": "BloombergHT", "url": "https://www.bloomberght.com/rss", "language": "tr", "country": "TR", "dogrulandi": false },
+      { "name": "Investing.com Türkçe", "url": "https://tr.investing.com/rss/news.rss", "language": "tr", "country": "TR", "dogrulandi": false },
+      { "name": "Para Analiz", "url": "https://www.paraanaliz.com/feed/", "language": "tr", "country": "TR", "dogrulandi": false },
+      { "name": "BBC Business", "url": "https://feeds.bbci.co.uk/news/business/rss.xml", "language": "en", "country": "GB", "dogrulandi": true },
+      { "name": "CNBC Markets", "url": "https://www.cnbc.com/id/100003114/device/rss/rss.html", "language": "en", "country": "US", "dogrulandi": false },
+      { "name": "NYT Business", "url": "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml", "language": "en", "country": "US", "dogrulandi": false },
+      { "name": "The Guardian Business", "url": "https://www.theguardian.com/uk/business/rss", "language": "en", "country": "GB", "dogrulandi": false },
+      { "name": "MarketWatch Top Stories", "url": "http://feeds.marketwatch.com/marketwatch/topstories/", "language": "en", "country": "US", "dogrulandi": false },
+      { "name": "Yahoo Finance", "url": "https://finance.yahoo.com/news/rssindex", "language": "en", "country": "US", "dogrulandi": false },
+      { "name": "Financial Times (Home)", "url": "https://www.ft.com/rss/home", "language": "en", "country": "GB", "dogrulandi": false }
+    ],
+    "teknoloji": [
+      { "name": "Webtekno", "url": "https://www.webtekno.com/rss.xml", "language": "tr", "country": "TR", "dogrulandi": true },
+      { "name": "ShiftDelete", "url": "https://shiftdelete.net/feed", "language": "tr", "country": "TR", "dogrulandi": true },
+      { "name": "DonanımHaber", "url": "https://www.donanimhaber.com/rss/tum/", "language": "tr", "country": "TR", "dogrulandi": true },
+      { "name": "Chip Online TR", "url": "https://www.chip.com.tr/rss", "language": "tr", "country": "TR", "dogrulandi": false },
+      { "name": "TechCrunch", "url": "https://techcrunch.com/feed/", "language": "en", "country": "US", "dogrulandi": true },
+      { "name": "The Verge", "url": "https://www.theverge.com/rss/index.xml", "language": "en", "country": "US", "dogrulandi": false },
+      { "name": "Ars Technica", "url": "https://feeds.arstechnica.com/arstechnica/index", "language": "en", "country": "US", "dogrulandi": false },
+      { "name": "Wired", "url": "https://www.wired.com/feed/rss", "language": "en", "country": "US", "dogrulandi": false },
+      { "name": "Engadget", "url": "https://www.engadget.com/rss.xml", "language": "en", "country": "US", "dogrulandi": false },
+      { "name": "MIT Technology Review", "url": "https://www.technologyreview.com/feed/", "language": "en", "country": "US", "dogrulandi": false },
+      { "name": "TechRadar", "url": "https://www.techradar.com/rss", "language": "en", "country": "GB", "dogrulandi": false },
+      { "name": "Hacker News Front Page", "url": "https://hnrss.org/frontpage", "language": "en", "country": "US", "dogrulandi": false }
+    ],
+    "dis_politika": [
+      { "name": "BBC Türkçe", "url": "https://feeds.bbci.co.uk/turkce/rss.xml", "language": "tr", "country": "TR", "dogrulandi": true },
+      { "name": "Anadolu Ajansı - Güncel", "url": "https://www.aa.com.tr/tr/rss/default?cat=guncel", "language": "tr", "country": "TR", "dogrulandi": true },
+      { "name": "Anadolu Ajansı - Dünya", "url": "https://www.aa.com.tr/tr/rss/default?cat=dunya", "language": "tr", "country": "TR", "dogrulandi": false },
+      { "name": "DW Türkçe", "url": "https://rss.dw.com/rdf/rss-tr-all", "language": "tr", "country": "DE", "dogrulandi": false },
+      { "name": "TRT Haber - Dünya", "url": "https://www.trthaber.com/dunya_articles.rss", "language": "tr", "country": "TR", "dogrulandi": false },
+      { "name": "BBC World", "url": "https://feeds.bbci.co.uk/news/world/rss.xml", "language": "en", "country": "GB", "dogrulandi": true },
+      { "name": "Al Jazeera", "url": "https://www.aljazeera.com/xml/rss/all.xml", "language": "en", "country": "QA", "dogrulandi": true },
+      { "name": "The Guardian World", "url": "https://www.theguardian.com/world/rss", "language": "en", "country": "GB", "dogrulandi": false },
+      { "name": "NYT World", "url": "https://rss.nytimes.com/services/xml/rss/nyt/World.xml", "language": "en", "country": "US", "dogrulandi": false },
+      { "name": "France 24", "url": "https://www.france24.com/en/rss", "language": "en", "country": "FR", "dogrulandi": false },
+      { "name": "Euronews", "url": "https://www.euronews.com/rss", "language": "en", "country": "FR", "dogrulandi": false },
+      { "name": "Foreign Policy", "url": "https://foreignpolicy.com/feed/", "language": "en", "country": "US", "dogrulandi": false }
+    ]
+  }
+}
