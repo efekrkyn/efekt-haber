@@ -34,6 +34,9 @@ export default async function CategoryPage({
   } else if (slug === 'dis-politika') {
     categoryEnum = 'dis_politika';
     title = 'Dış Politika';
+  } else if (slug === 'turkiye') {
+    categoryEnum = 'turkiye';
+    title = 'Türkiye';
   } else {
     return notFound();
   }
