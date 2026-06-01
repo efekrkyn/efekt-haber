@@ -26,6 +26,7 @@ function ChatClient() {
   ]);
   const [input, setInput] = useState(initialQuery);
   const [isLoading, setIsLoading] = useState(false);
+  const [model, setModel] = useState<'deepseek-chat' | 'deepseek-reasoner'>('deepseek-chat');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -54,7 +55,10 @@ function ChatClient() {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: [...messages, userMessage].map(m => ({ role: m.role, content: m.content })) }),
+        body: JSON.stringify({ 
+          model,
+          messages: [...messages, userMessage].map(m => ({ role: m.role, content: m.content })) 
+        }),
       });
 
       if (!response.ok) throw new Error('API Error');
@@ -103,12 +107,23 @@ function ChatClient() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-140px)] md:h-[calc(100vh-100px)] animate-in fade-in duration-500">
-      <header className="mb-4">
-        <h1 className="text-2xl font-bold tracking-tight text-blue-400 flex items-center gap-2">
-          <Bot className="w-6 h-6" />
-          AI Yorumcu
-        </h1>
-        <p className="text-sm text-muted-foreground">Tüm haber arşivine dayalı, unutmayan hafızalı sohbet.</p>
+      <header className="mb-4 flex items-center justify-between">
+        <div>
+          <h1 className="text-2xl font-bold tracking-tight text-blue-400 flex items-center gap-2">
+            <Bot className="w-6 h-6" />
+            AI Yorumcu
+          </h1>
+          <p className="text-sm text-muted-foreground">Tüm haber arşivine dayalı, unutmayan hafızalı sohbet.</p>
+        </div>
+        <select 
+          value={model} 
+          onChange={(e) => setModel(e.target.value as any)}
+          className="bg-background/80 border border-border/50 rounded-md px-3 py-1.5 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-blue-500 shadow-sm"
+          disabled={isLoading}
+        >
+          <option value="deepseek-chat">Hızlı Model (V3)</option>
+          <option value="deepseek-reasoner">Düşünen Model (R1)</option>
+        </select>
       </header>
 
       <Card className="flex-1 overflow-hidden flex flex-col bg-background/50 backdrop-blur border-border/40 shadow-xl">

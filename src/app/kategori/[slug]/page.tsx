@@ -1,16 +1,25 @@
 import { db } from '@/db';
 import { articles, sources } from '@/db/schema';
-import { desc, eq, and } from 'drizzle-orm';
+import { desc, asc, eq, and } from 'drizzle-orm';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ExternalLink } from 'lucide-react';
+import { SortSelect } from '@/components/SortSelect';
 
 export const revalidate = 3600;
 
-export default async function CategoryPage({ params }: { params: { slug: string } }) {
+export default async function CategoryPage({ 
+  params,
+  searchParams
+}: { 
+  params: { slug: string };
+  searchParams: { [key: string]: string | string[] | undefined };
+}) {
   const { slug } = await params;
+  const resolvedSearchParams = await searchParams;
+  const sortParam = typeof resolvedSearchParams.sort === 'string' ? resolvedSearchParams.sort : 'date';
   
   // Normalize slug to db enum
   let categoryEnum: 'finans' | 'teknoloji' | 'dis_politika';
@@ -29,9 +38,19 @@ export default async function CategoryPage({ params }: { params: { slug: string 
     return notFound();
   }
 
+  // Determine sorting order
+  let orderClause = [desc(articles.publishedAt)];
+  if (sortParam === 'importance') {
+    orderClause = [desc(articles.importanceScore)];
+  } else if (sortParam === 'impact') {
+    orderClause = [desc(articles.marketImpact)];
+  } else if (sortParam === 'sentiment') {
+    orderClause = [desc(articles.sentiment)];
+  }
+
   const categoryArticles = await db.query.articles.findMany({
     where: eq(articles.category, categoryEnum),
-    orderBy: [desc(articles.publishedAt)],
+    orderBy: orderClause,
     limit: 50,
     with: {
       source: true,
@@ -40,9 +59,12 @@ export default async function CategoryPage({ params }: { params: { slug: string 
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
-      <header className="space-y-2 border-b border-border/40 pb-4">
-        <h1 className="text-3xl font-bold tracking-tight">{title} Haberleri</h1>
-        <p className="text-muted-foreground">Son gelişmeler, çeviriler ve yapay zeka analizleri.</p>
+      <header className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-border/40 pb-4">
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold tracking-tight">{title} Haberleri</h1>
+          <p className="text-muted-foreground">Son gelişmeler, çeviriler ve yapay zeka analizleri.</p>
+        </div>
+        <SortSelect />
       </header>
 
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

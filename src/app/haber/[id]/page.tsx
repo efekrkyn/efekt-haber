@@ -66,21 +66,14 @@ export default async function ArticlePage({ params }: { params: { id: string } }
 
       <section className="bg-muted/30 rounded-xl p-6 border border-border/40">
         <h3 className="flex items-center gap-2 font-semibold text-lg mb-3 text-blue-400">
-          <Bot className="w-5 h-5" /> AI Özeti
+          <Bot className="w-5 h-5" /> Haber Metni & AI Analizi
         </h3>
         <p className="text-foreground/90 leading-relaxed whitespace-pre-wrap text-lg">
           {article.summaryTr}
         </p>
       </section>
 
-      {article.fullContentTr && (
-        <section className="prose prose-invert prose-blue max-w-none">
-          <h3 className="text-xl font-semibold mb-4">Detaylar</h3>
-          <div className="whitespace-pre-wrap leading-relaxed text-foreground/80">
-            {article.fullContentTr}
-          </div>
-        </section>
-      )}
+
 
       {article.topics && article.topics.length > 0 && (
         <div className="pt-6 border-t border-border/40">

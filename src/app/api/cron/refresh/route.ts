@@ -82,6 +82,11 @@ export async function POST(request: Request) {
 
     console.log(`Fetched total ${allItems.length} raw items.`);
 
+    const limit = parseInt(url.searchParams.get('limit') || '30', 10);
+    
+    // Sort all fetched items by date (newest first) to ensure we always process the freshest news across all sources
+    allItems.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
+
     // 4. Deduplication against DB
     const hashes = allItems.map(i => i.contentHash);
     const existingArticles = hashes.length > 0 ? await db.query.articles.findMany({
@@ -90,7 +95,8 @@ export async function POST(request: Request) {
     }) : [];
     
     const existingHashes = new Set(existingArticles.map(a => a.contentHash));
-    const newItems = allItems.filter(i => !existingHashes.has(i.contentHash));
+    // We only take a maximum of (limit * 2) new items to score. This prevents the Light AI pass from taking 10+ minutes on 200 items.
+    const newItems = allItems.filter(i => !existingHashes.has(i.contentHash)).slice(0, limit * 2);
 
     console.log(`Found ${newItems.length} new items to process.`);
 
@@ -139,7 +145,6 @@ Başlık: ${item.originalTitle}
     }
 
     // 6. Select Top N items globally
-    const limit = parseInt(url.searchParams.get('limit') || '30', 10);
     const topItems = scoredItems.sort((a, b) => b.importanceScore - a.importanceScore).slice(0, limit);
 
     console.log(`Selected ${topItems.length} top items across categories.`);

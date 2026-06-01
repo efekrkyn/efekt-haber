@@ -14,8 +14,9 @@ const openai = new OpenAI({
 
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json();
+    const { messages, model } = await req.json();
     const lastUserMessage = messages[messages.length - 1].content;
+    const selectedModel = model === 'deepseek-reasoner' ? 'deepseek-reasoner' : 'deepseek-chat';
 
     // 1. RAG Search
     const similarArticles = await findSimilarArticles(lastUserMessage, 8);
@@ -52,21 +53,42 @@ ${contextStr}
 
     // 5. Stream Response using SSE manually (since openai.chat.completions.create with stream: true returns a stream)
     const stream = await openai.chat.completions.create({
-      model: 'deepseek-chat',
+      model: selectedModel,
       messages: apiMessages,
       stream: true,
-      temperature: 0.6,
+      temperature: selectedModel === 'deepseek-reasoner' ? undefined : 0.6,
     });
 
     const encoder = new TextEncoder();
     const readableStream = new ReadableStream({
       async start(controller) {
         let fullResponse = '';
+        let isThinking = false;
+        
         for await (const chunk of stream) {
-          const content = chunk.choices[0]?.delta?.content || '';
-          if (content) {
-            fullResponse += content;
-            controller.enqueue(encoder.encode(content));
+          const delta = chunk.choices[0]?.delta as any;
+          if (!delta) continue;
+          
+          if (delta.reasoning_content) {
+            if (!isThinking) {
+              isThinking = true;
+              const thinkStart = "💭 Düşünüyorum...\n================================\n";
+              fullResponse += thinkStart;
+              controller.enqueue(encoder.encode(thinkStart));
+            }
+            fullResponse += delta.reasoning_content;
+            controller.enqueue(encoder.encode(delta.reasoning_content));
+          }
+          
+          if (delta.content) {
+            if (isThinking) {
+              isThinking = false;
+              const thinkEnd = "\n================================\n\n";
+              fullResponse += thinkEnd;
+              controller.enqueue(encoder.encode(thinkEnd));
+            }
+            fullResponse += delta.content;
+            controller.enqueue(encoder.encode(delta.content));
           }
         }
         controller.close();

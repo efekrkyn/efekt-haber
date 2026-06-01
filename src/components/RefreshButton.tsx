@@ -4,6 +4,8 @@ import { useState } from "react";
 import { RefreshCw } from "lucide-react";
 import { Button } from "./ui/button";
 
+import { triggerManualRefresh } from "@/actions/refresh";
+
 export function RefreshButton() {
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
@@ -17,9 +19,7 @@ export function RefreshButton() {
       // 10'ar adetlik 3 istek atıyoruz, toplam 30 haber.
       for (let i = 1; i <= 3; i++) {
         setProgress(i);
-        await fetch('/api/cron/refresh?limit=10&secret=ha', {
-          method: 'POST'
-        });
+        await triggerManualRefresh();
       }
       // Sayfayı yenileyerek yeni haberleri göster
       window.location.reload();
