@@ -82,7 +82,7 @@ export async function POST(request: Request) {
 
     console.log(`Fetched total ${allItems.length} raw items.`);
 
-    const limit = parseInt(url.searchParams.get('limit') || '30', 10);
+    const limit = parseInt(url.searchParams.get('limit') || '40', 10);
     
     // Sort all fetched items by date (newest first) to ensure we always process the freshest news across all sources
     allItems.sort((a, b) => b.publishedAt.getTime() - a.publishedAt.getTime());
@@ -117,7 +117,7 @@ export async function POST(request: Request) {
       const chunkPromises = chunk.map(async (item) => {
         try {
           const prompt = `Lütfen aşağıdaki haber başlığını ve özetini değerlendir. Bana JSON olarak şu 2 bilgiyi dön:
-1. "category": Haberin kategorisi (SADECE "finans", "teknoloji", "dis_politika"). Eğer haberin orijinal kategorisi '${item.expectedCategory}' uygunsa onu tut.
+1. "category": Haberin kategorisi (SADECE "finans", "teknoloji", "dis_politika", "turkiye"). Eğer haberin orijinal kategorisi '${item.expectedCategory}' uygunsa onu tut.
 2. "importanceScore": Haberin genel önem puanı (0-100).
 Başlık: ${item.originalTitle}
 Özet: ${item.originalSummary.slice(0, 300)}`;

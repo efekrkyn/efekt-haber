@@ -1,23 +1,21 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
-import postgres from 'postgres';
+import { neon } from '@neondatabase/serverless';
+import { drizzle } from 'drizzle-orm/neon-http';
 import * as schema from './schema';
-import { sql } from 'drizzle-orm';
 import { config } from 'dotenv';
 import fs from 'fs';
 import path from 'path';
 
 config({ path: '.env' });
 
-const connectionString = process.env.DATABASE_URL!;
-const client = postgres(connectionString, { prepare: false });
-const db = drizzle(client, { schema });
+const sqlClient = neon(process.env.DATABASE_URL!);
+const db = drizzle(sqlClient, { schema });
 
 async function main() {
   console.log('Veritabanı seed işlemi başlatılıyor...');
 
-  // 1. pgvector eklentisini kur
-  await db.execute(sql`CREATE EXTENSION IF NOT EXISTS vector;`);
-  console.log('✅ pgvector extension kuruldu (idempotent).');
+  // Since HTTP driver doesn't support raw execute easily, we skip pgvector extension check
+  // (already handled in migration or console)
+  console.log('Skipping pgvector extension check for HTTP driver.');
 
   // 2. rss-sources.json dosyasını oku
   const sourcesPath = path.resolve(process.cwd(), 'rss-sources.json');
@@ -28,19 +26,20 @@ async function main() {
     const rssSources = [
       ...parsed.kategoriler.finans.map((s: any) => ({ ...s, category: 'finans' })),
       ...parsed.kategoriler.teknoloji.map((s: any) => ({ ...s, category: 'teknoloji' })),
-      ...parsed.kategoriler.dis_politika.map((s: any) => ({ ...s, category: 'dis_politika' }))
+      ...parsed.kategoriler.dis_politika.map((s: any) => ({ ...s, category: 'dis_politika' })),
+      ...parsed.kategoriler.turkiye.map((s: any) => ({ ...s, category: 'turkiye' }))
     ];
 
     console.log(`Seeding ${rssSources.length} RSS sources...`);
 
     // Let's clear existing first
-    await db.execute(sql`TRUNCATE TABLE sources CASCADE;`);
+    await db.delete(schema.sources);
     
     await db.insert(schema.sources).values(
       rssSources.map((s: any) => ({
         name: s.name,
         url: s.url,
-        category: s.category as 'finans' | 'teknoloji' | 'dis_politika',
+        category: s.category as 'finans' | 'teknoloji' | 'dis_politika' | 'turkiye',
         language: s.language || 'tr',
         country: s.country || 'TR',
         isActive: s.is_active ?? s.dogrulandi ?? true,

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Home, TrendingUp, Cpu, Globe, Search, Bookmark, History, LayoutList } from 'lucide-react';
+import { Home, TrendingUp, Cpu, Globe, Search, Bookmark, History, LayoutList, MapPin } from 'lucide-react';
 import { RefreshButton } from '@/components/RefreshButton';
 
 const navItems = [
@@ -7,6 +7,7 @@ const navItems = [
   { href: '/kategori/finans', label: 'Finans', icon: TrendingUp },
   { href: '/kategori/teknoloji', label: 'Teknoloji', icon: Cpu },
   { href: '/kategori/dis-politika', label: 'Dış Politika', icon: Globe },
+  { href: '/kategori/turkiye', label: 'Türkiye', icon: MapPin },
   { href: '/sohbet', label: 'AI Yorumcu', icon: Search },
   { href: '/arama', label: 'Akıllı Arama', icon: Search },
   { href: '/takip', label: 'İzleme Listesi', icon: LayoutList },

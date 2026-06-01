@@ -41,6 +41,11 @@
       { "name": "France 24", "url": "https://www.france24.com/en/rss", "language": "en", "country": "FR", "dogrulandi": false },
       { "name": "Euronews", "url": "https://www.euronews.com/rss", "language": "en", "country": "FR", "dogrulandi": false },
       { "name": "Foreign Policy", "url": "https://foreignpolicy.com/feed/", "language": "en", "country": "US", "dogrulandi": false }
+    ],
+    "turkiye": [
+      { "name": "NTV Türkiye", "url": "https://www.ntv.com.tr/turkiye.rss", "language": "tr", "country": "TR", "dogrulandi": true },
+      { "name": "Habertürk Gündem", "url": "https://www.haberturk.com/rss/kategori/gundem.xml", "language": "tr", "country": "TR", "dogrulandi": true },
+      { "name": "TRT Haber Türkiye", "url": "https://www.trthaber.com/turkiye_articles.rss", "language": "tr", "country": "TR", "dogrulandi": false }
     ]
   }
 }

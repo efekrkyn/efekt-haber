@@ -26,7 +26,7 @@ const vector = customType<{ data: number[]; driverData: string }>({
 });
 
 // Enums
-export const categoryEnum = pgEnum('category', ['finans', 'teknoloji', 'dis_politika']);
+export const categoryEnum = pgEnum('category', ['finans', 'teknoloji', 'dis_politika', 'turkiye']);
 export const sentimentEnum = pgEnum('sentiment', ['olumlu', 'olumsuz', 'notr']);
 export const marketImpactEnum = pgEnum('market_impact', ['yuksek', 'orta', 'dusuk', 'yok']);
 export const roleEnum = pgEnum('role', ['user', 'assistant']);

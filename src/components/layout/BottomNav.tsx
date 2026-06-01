@@ -1,10 +1,11 @@
 import Link from 'next/link';
-import { Home, TrendingUp, Cpu, Globe, Search } from 'lucide-react';
+import { Home, TrendingUp, Cpu, Globe, Search, MapPin } from 'lucide-react';
 
 const bottomNavItems = [
   { href: '/', label: 'Brifing', icon: Home },
   { href: '/kategori/finans', label: 'Finans', icon: TrendingUp },
   { href: '/kategori/teknoloji', label: 'Teknoloji', icon: Cpu },
+  { href: '/kategori/turkiye', label: 'Türkiye', icon: MapPin },
   { href: '/sohbet', label: 'Yorumcu', icon: Search },
 ];
 
